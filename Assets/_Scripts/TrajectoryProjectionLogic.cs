@@ -89,7 +89,10 @@ namespace DefaultNamespace
 
         private void OnDestroy()
         {
-            SceneManager.UnloadSceneAsync(m_SimulationScene);
+            if (m_SimulatedObjects != null)
+            {
+                SceneManager.UnloadSceneAsync(m_SimulationScene);
+            }
         }
 
         private Transform SpawnObstacleIntoSimulation(Transform obstacle)

@@ -9,13 +9,13 @@ namespace DefaultNamespace
     {
         private Rigidbody2D m_Rigidbody;
         private Collider2D m_Collider;
+        private Animator m_Animator;
 
         private float m_DeathTimer = 0;
         private float m_DeathDelay = 7;
 
         private enum BirdState
         {
-            Uninitialized,
             Idle,
             Projectile
         }
@@ -23,17 +23,16 @@ namespace DefaultNamespace
 
         private void initialize()
         {
-            if(m_State == BirdState.Uninitialized)
-            {
-                m_State = BirdState.Idle;
+            m_State = BirdState.Idle;
 
-                m_Rigidbody = GetComponent<Rigidbody2D>();
-                m_Rigidbody.isKinematic = true;
-                m_Rigidbody.WakeUp();
+            m_Animator = GetComponent<Animator>();
 
-                m_Collider = GetComponent<Collider2D>();
-                m_Collider.enabled = false;
-            }
+            m_Rigidbody = GetComponent<Rigidbody2D>();
+            m_Rigidbody.isKinematic = true;
+            m_Rigidbody.WakeUp();
+
+            m_Collider = GetComponent<Collider2D>();
+            m_Collider.enabled = false;
         }
 
         // Start is called before the first frame update
@@ -44,7 +43,7 @@ namespace DefaultNamespace
 
         public void BecomeProjectile(Vector3 velocity)
         {
-            initialize();
+            m_Animator.SetTrigger("launch");
 
             m_Collider.enabled = true;
             m_Rigidbody.isKinematic = false;
